@@ -1,0 +1,28 @@
+out = ""
+f1 = []
+f2 = []
+f3 = []
+first = true
+
+files = sort(files)
+
+for each file in files
+	
+	if first
+		first = false
+	else
+		out = out + " | "
+	
+	if file is f1
+		f1.add(file)
+		out = out + file
+	else if file is f2
+		f2.add(file)
+		out = out + file
+	else if file is f3
+		f3.add(file)
+		out = out + file
+	else
+		skip
+
+endfor

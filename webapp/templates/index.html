@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css" />
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<h1 align="center">Smart Living Dashboard</h1>
+		<div class="container expand-on-small-only " style="height: 450px;">
+			<div class="card index-div">
+				<div class="card-content" style="height: calc(100% - 72px);">
+					<div class="mdl-grid index-div">
+						<div class="mdl-cell mdl-cell--3-col mdl-typography--text-center index-div" style="">
+							<a style="text-decoration: none;" href="{{url_for('home')}}">
+								<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+									<div style="margin: 0 auto;" class="mdl-card__title">
+										<i style="color: #1565C0; padding-top: 25px; font-size: 80px"class="material-icons">home</i>
+									</div>
+									<div class="mdl-card__supporting-text">
+										<h2 align="center" style="color: #000">Home</h2>
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="mdl-cell mdl-cell--3-col mdl-typography--text-center index-div" style="">
+							<a style="text-decoration: none;" href="{{url_for('monitor')}}"/>
+								<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+									<div style="margin: 0 auto;" class="mdl-card__title">
+										<i style="color: #1565C0; padding-top: 25px; font-size: 80px" class="material-icons">favorite</i>
+									</div>
+									<div class="mdl-card__supporting-text">
+										<h2 align="center" style="color: #000">Health</h2>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

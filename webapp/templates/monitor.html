@@ -1,0 +1,161 @@
+<html>
+	<head>
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css" />
+	    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	    <style type="text/css">
+	    	#start {
+			  display: inline-block;
+			  text-decoration: none;
+			  background: #1565C0;
+			  color: #FFF;
+			  font-size: 20px;
+			  width: 120px;
+			  height: 120px;
+			  line-height: 120px;
+			  border-radius: 50%;
+			  text-align: center;
+			  vertical-align: middle;
+			  overflow: hidden;
+			  transition: .4s;
+			}
+
+			#start2 {
+			  display: inline-block;
+			  text-decoration: none;
+			  background: #1565C0;
+			  color: #FFF;
+			  font-size: 20px;
+			  width: 120px;
+			  height: 120px;
+			  line-height: 120px;
+			  border-radius: 50%;
+			  text-align: center;
+			  vertical-align: middle;
+			  overflow: hidden;
+			  transition: .4s;
+			}
+	    </style>
+	</head>
+	<body>
+		<h1 align="center">Heartbeat Monitor</h1>
+		<div class="mdl-grid">
+			<div class="mdl-cell mdl-cell--3-col"></div>
+			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 0 auto;" id="main-container">
+				<div style="text-align: center" id="heart-rate">
+					<div id="spinner" style="margin: 0 auto; display: none; width: 300; height: 270px;">
+						<div style="margin: 100; width: 50px; height: 50px;" class="mdl-spinner mdl-js-spinner is-active"></div>
+					</div>
+					<h1 id="rate" style="width: 330px; height: 270px; margin: 0px; font-size: 200px">0</h1>
+					<h3 style="margin-top: 0px">BPM</h3>
+				</div>
+			</div>
+			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 0 auto;" id="temperature-container">
+				<div style="text-align: center" id="temperature">
+					<div id="spinner2" style="margin: 0 auto; display: none; width: 300; height: 270px;">
+						<div style="margin: 100; width: 50px; height: 50px;" class="mdl-spinner mdl-js-spinner is-active"></div>
+					</div>
+					<h1 id="temperature-value" style="width: 330px; height: 270px; margin: 0px; font-size: 200px">0</h1>
+					<h3 style="margin-top: 0px">° C</h3>
+				</div>
+			</div>
+			<div class="mdl-cell mdl-cell--3-col"></div>
+		</div>
+		<div class="mdl-grid">
+			<div class="mdl-cell mdl-cell--3-col"></div>
+			<div style="text-align: center; margin: 50px auto;" id="button-container">
+				<a type="button" id="start" value="Launch">Start</a>
+			</div>
+			<div style="text-align: center; margin: 50px auto;" id="button-container">
+				<a type="button" id="start2" value="Launch">Start</a>
+			</div>
+			<div class="mdl-cell mdl-cell--3-col"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+
+		function startMonitoring() {
+			$.ajax({
+					type: "GET",
+					url: "{{url_for('start_monitoring')}}",
+					success: function(avg) {
+						//TODO togliere spinner e visualizzare il valore
+						$("#spinner").toggle()
+						$('#heart-rate').prepend("<h1 id=\"rate\" style=\"margin: 0px; font-size: 200px\">" + avg + "</h1>")
+						$('#rate').each(function () {
+						    $(this).prop('Counter',0).animate({
+						        Counter: $(this).text()
+						    }, {
+						        duration: 4000,
+						        easing: 'swing',
+						        step: function (now) {
+						            $(this).text(Math.ceil(now));
+						        }
+						    });
+						});
+					},
+					error: function(avg) {
+						$("#spinner").toggle()
+						$('#heart-rate').prepend("<h1 id=\"rate\" style=\"margin: 0px; font-size: 200px\">0</h1>")
+						$('#rate').text(function(i, oldText) {
+							return 0;
+						});
+						console.log("error")
+					}
+				})
+		}
+
+		function startTemperature() {
+			$.ajax({
+					type: "GET",
+					url: "{{url_for('start_temperature')}}",
+					success: function(temperature) {
+						//TODO togliere spinner e visualizzare il valore
+						$("#spinner2").toggle()
+						$('#temperature').prepend("<h1 id=\"temperature-value\" style=\"margin: 0px; font-size: 200px\">" + temperature + "</h1>")
+						$('#temperature-value').each(function () {
+						    $(this).prop('Counter',0).animate({
+						        Counter: $(this).text()
+						    }, {
+						        duration: 4000,
+						        easing: 'swing',
+						        step: function (now) {
+						            $(this).text(Math.ceil(now));
+						        }
+						    });
+						});
+					//	startMonitoring()
+					},
+					error: function(avg) {
+						$("#spinner2").toggle()
+						$('#temperature').prepend("<h1 id=\"temperature-value\" style=\"margin: 0px; font-size: 200px\">0</h1>")
+						$('#temperature-value').text(function(i, oldText) {
+        					return 0;
+    					});
+						console.log("error")
+					}
+				})
+		}
+
+		$(document).ready(function(c) {
+			$('#start').on('click', function() {
+				$('#rate').remove()
+				$('#spinner').toggle()
+				//$("#spinner").attr("class","mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active")
+				console.log("{{url_for('start_monitoring')}}")
+				
+				startMonitoring()
+			});
+
+			$('#start2').on('click', function() {
+				$('#temperature-value').remove()
+				$('#spinner2').toggle()
+
+				startTemperature()
+			});
+		});
+
+	</script>
+</html>

@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  </head>
+   <body>
+      <h1 align="center">Home Monitor</h1>
+      <div align="center" style="margin-bottom: 25px;">
+        <image id="alarm" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png" height="100" width="100"/>
+      </div>
+      <div style="margin: 0 auto;">
+      <table align="center" class="mdl-data-table mdl-js-data-table mdl-shadow--4dp" id="table">
+        <thead>
+          <tr>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Sound</th>
+            <th>Flame</th>
+            <th>Light</th>
+            <th>Signal Quality</th>
+          </tr>
+        </thead>
+        <tr>
+          <td id=temperature></td>
+          <td id=humidity></td>
+          <td id=sound></td>
+          <td id=flame></td>
+          <td id=light></td>
+          <td id=signal_quality></td>
+        </tr>
+     </table>
+   </div>
+   </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script type=text/javascript>
+              $(document).ready(function(c) {
+                updateData();
+              });
+              $(function() {
+                $('a#test').bind('click', function() {
+                  return false;
+            });
+          });
+          function updateData() {
+            $.getJSON('/update', function(data) {
+              $.each(data, function(index, element) {
+                if (index == "alarm")
+                  if (element == 1)
+                    $("#alarm").attr("src","http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/256/alert-icon.png");
+                  else
+                    $("#alarm").attr("src","http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png");
+                else
+                  $('#' + index).text(element)
+              });
+            });
+            setTimeout(updateData, 3000)
+          };
+      </script>
+</html>
